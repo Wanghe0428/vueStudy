@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>vue对表单的操作</title>
+</head>
+<form id="app" action="http://www.baidu.com">
+    <div>
+        <span>姓名： </span>
+        <input type="text" name="" v-model="name"></div>
+    <div>
+        <span>性别： </span>
+        <input type="radio" name="" id="male" value="1" v-model="gender">
+        <label for="male">男</label>
+        <input type="radio" name="" id="female" value="2" v-model="gender">
+        <label for="female">女</label>
+    </div>
+    <div>
+        <span>爱好</span>
+        <input type="checkbox" name="" id="ball" value="1" v-model="hobby">
+        <label for="ball">足球</label>
+        <input type="checkbox" name="" id="sing" value="2" v-model="hobby">
+        <label for="sing">唱歌</label>
+        <input type="checkbox" name="" id="code" value="3" v-model="hobby">
+        <label for="code">写代码</label>
+    </div>
+    <div>
+        <span>职业</span>
+        <select v-model='occupation' multiple="true">
+            <option value="0">请选择职业...</option>
+            <option value="1">教师</option>
+            <option value="2">软件工程师</option>
+            <option value="3">律师</option>
+        </select>
+    </div>
+    <div>
+        <span>个人简历：</span>
+        <textarea v-model="resume"></textarea>
+    </div>
+    <div>
+        <input type="submit" name="" value="提交" @click.prevent="handle">
+    </div>
+</form>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript">
+var vue = new Vue({
+    el: '#app',
+    data: {
+        name: '',
+        gender: 1,
+        hobby: ['1', '2'],
+        occupation: ['0'],
+        resume: '',
+    },
+    methods: {
+        handle: function() {
+            console.log(this.name);
+            console.log(this.gender);
+            console.log(this.hobby);
+            console.log(this.occupation);
+            console.log(this.resume);
+        },
+    }
+});
+</script>
+
+<body>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>属性样式绑定</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-bind:href:可简写为":href" -->
+        <a v-bind:href='url' target="_blank">点我哦</a>
+        <div>请输入您想打开的网站<input type="text" name="" v-model="target"></div>
+        <button @click="handle">切换</button>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: '#app',
+        data: { url: '' },
+        target: '',
+        methods: {
+            handle: function() {
+                this.url = this.target;
+            },
+        },
+    });
+    </script>
+</body>
+
+</html>

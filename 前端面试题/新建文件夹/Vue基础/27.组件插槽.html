@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>组件插槽</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <slot>标签是一个插槽，可以将父标签的内容填充到slot标签中 -->
+        <test-jerry>有bug</test-jerry>
+        <test-jerry>有一个警告</test-jerry>
+        <test-jerry></test-jerry>
+    </div>
+    <div>----------------------</div>
+    <div id="app">
+        <base-layout>
+            <p slot="header">首部</p>
+            <p>内容一</p>
+            <p>内容二</p>
+            <p slot="footer">尾部</p>
+        </base-layout>
+        <base-layout>
+            <template slot='header'>
+                <p>标题1</p>
+                <p>标题2</p>
+            </template>
+            <p>内容一</p>
+            <p>内容二</p>
+            <template slot='footer'>
+                <p>底部信息11</p>
+                <p>底部信息2</p>
+            </template>
+        </base-layout>
+        <div>--------------------</div>
+        <base-layout>
+            <template slot='header'>
+                <p>标题信息1</p>
+                <p>标题信息2</p>
+            </template>
+            <p>主要内容1</p>
+            <p>主要内容2</p>
+            <template slot='footer'>
+                <p>底部信息信息1</p>
+                <p>底部信息信息2</p>
+            </template>
+        </base-layout>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    //组件插槽
+    Vue.component('test-jerry', {
+        data: function() {
+            return {
+                num: 0
+            };
+        },
+        template: `
+				<div>
+					<strong>ERROR:</strong>
+					<slot>默认内容</slot>
+				</div>
+			`,
+    });
+    Vue.component('base-layout', {
+        data: function() {
+            return {
+                num: 0
+            };
+        },
+        template: `
+		<div>
+		      <header>
+		        <slot name='header'></slot>
+		      </header>
+		      <main>
+		        <slot></slot>
+		      </main>
+		      <footer>
+		        <slot name='footer'></slot>
+		      </footer>
+        </div>
+			`,
+    });
+    var vue = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+    });
+    </script>
+</body>
+
+</html>

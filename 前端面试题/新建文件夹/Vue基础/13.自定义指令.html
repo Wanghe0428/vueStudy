@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>自定义指令</title>
+</head>
+<style type="text/css">
+</style>
+
+<body>
+    <div id="app">
+        <!-- 自定义指令，使得网页一打开就让输入框有焦点 -->
+        <input type="text" name="" v-focus>
+        <input type="text" name="" v-color='msg'>
+        <input type="text" name="" v-background='msg1'>
+        <input type="text" name="" v-font="msg1">
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    /*
+    	自定义指令：
+    		Vue.directive()
+    	*/
+    Vue.directive('focus', {
+        inserted: function(el) {
+            //el表示指令所绑定的元素
+            el.focus(); //focus()方法就是获取焦点
+            el.value = "王贺是爸爸";
+        }
+    });
+    //利用bind
+    Vue.directive('color', {
+        bind: function(el, binding) {
+            el.style.color = binding.value.color; //binding为传入的绑定对象，binding.value的值为自定义指令的值
+            console.log(binding);
+        }
+    });
+    Vue
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            msg: {
+                color: "orange"
+            },
+            msg1: {
+                backgroundColor: 'blue',
+                color: "red",
+                fontSize: "30px"
+            }
+        },
+        methods: {
+
+        },
+        //自定义局部指令
+        directives: {
+            background: function(el, bingding) {
+                el.style.backgroundColor = bingding.value.backgroundColor;
+                el.style.color = bingding.value.color
+            },
+
+            font: {
+                bind: function(el, bingding) {
+                    el.style.fontSize = bingding.value.fontSize;
+                }
+            }
+        },
+    });
+    </script>
+</body>
+
+</html>

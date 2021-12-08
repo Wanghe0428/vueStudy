@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>验证用户名唯一性</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <span>用户名</span>
+            <span><input type="text" name="" v-model="uname"></span>
+            <span v-text="tip"></span>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            uname: '',
+            tip: '',
+        },
+        methods: {
+            checkName: function(uname) {
+                var that = this;
+                //调用接口，但是可以使用定时任务的方式模拟接口调用
+                setTimeout(() => {
+                    //模拟接口调用
+                    if (uname == "admin") {
+                        that.tip = "用户名已存在";
+                    } else {
+                        that.tip = "用户名符合规范";
+                    }
+                }, 2000)
+            },
+        },
+        /*监听器用于监听用户名是否唯一：
+				方法：
+				第一步：采用监听器监听用户的变化
+				第二步：调用后台接口进行验证
+				第三步：根据验证的结果调整提示信息	
+    		*/
+
+        watch: {
+            uname: function(val) {
+                //调用后台接口验证用户名的合法性
+                console.log(val);
+                this.checkName(val);
+                this.tip = "正在验证...";
+            },
+        }
+    });
+    </script>
+</body>
+
+</html>

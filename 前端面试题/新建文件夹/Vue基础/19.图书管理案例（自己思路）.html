@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>图书管理</title>
+</head>
+<style type="text/css">
+.title {
+    width: 400px;
+    height: 200px;
+    margin: auto;
+    text-align: center;
+    color: red;
+    font-size: 100px;
+}
+
+.grid {
+    margin: 0 auto;
+    text-align: center;
+    width: 500px;
+    background-color: skyblue;
+}
+
+.grid .check {
+    margin-bottom: 20px;
+}
+
+input {
+    color: red;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid black;
+}
+
+th {
+    background-color: orange;
+}
+</style>
+
+<body>
+    <div id="app">
+        <div class="title">图书管理</div>
+        <div class="grid">
+            <div class="check">
+                <span>编号：</span><span><input type="number" name="" v-model="id"></span>
+                <span>名称：</span><span><input type="text" name="" v-model="name"></span>
+                <span><button @click="handle3">提交</button></span>
+            </div>
+            <div>剩余书的数目：{{lengthComputed}}</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in books">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.date}}</td>
+                        <td>
+                            <a href="#" @click.prevent="handle1(item.id)">删除</a>
+                            <a href="#" @click.prevent="handle2(item.id-1)">修改</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            books: [{
+                id: 1,
+                name: '三国演义',
+                date: ''
+            }, {
+                id: 2,
+                name: '水浒传',
+                date: ''
+            }, {
+                id: 3,
+                name: '红楼梦',
+                date: ''
+            }, {
+                id: 4,
+                name: '西游记',
+                date: ''
+            }],
+            id: '',
+            name: '',
+            length: ''
+        },
+        methods: {
+            //删除
+            handle1: function(index) {
+                //第一步现根据id从数组中农查找元素的索引
+                var id = this.books.findIndex(function(item) {
+                    return item.id == index;
+                });
+                this.books.splice(id, 1);
+            },
+            //修改
+            handle2: function(index) {
+                this.id = this.books[index].id;
+                this.name = this.books[index].name;
+            },
+            //提交
+            handle3: function() {
+                var book = {};
+                book.id = this.id;
+                book.name = this.name;
+                this.books.push(book);
+               // if (this.id != this.books[])
+// this.books[this.id - 1].name = this.name;
+            }
+        },
+        computed: {
+            lengthComputed: function() {
+                return this.books.length;
+            }
+        }
+    });
+    </script>
+</body>
+
+</html>

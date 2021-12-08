@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>tab选项卡</title>
+</head>
+<style type="text/css">
+button {
+    width: 70px;
+    height: 50px;
+    border: 1px solid blue;
+
+}
+</style>
+
+<body>
+    <div id="app">
+        <div>
+            <button @click="handle1">apple</button>
+            <button @click="handle2">orange</button>
+            <button @click="handle3">lemon</button>
+        </div>
+        <div v-show="id1==1"><img src="img/apple.png">
+        </div>
+        <div v-show="id2==1"><img src="img/orange.png">
+        </div>
+        <div v-show="id3==1"><img src="img/lemon.png">
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            id1: 0,
+            id2: 0,
+            id3: 0
+        },
+        methods: {
+            handle1: function() {
+                console.log(33);
+                this.id2 = 0;
+                this.id3 = 0
+                this.id1 = 1;
+                console.log(this.id1, this.id2, this.id3 + 'ww');
+            },
+            handle2: function() {
+                this.id2 = 1;
+                this.id3 = 0;
+                this.id1 = 0;
+            },
+            handle3: function() {
+                this.id2 = 0;
+                this.id3 = 1;
+                this.id1 = 0;
+            },
+        }
+    });
+    </script>
+</body>
+
+</html>

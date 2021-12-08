@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>组件间数据交互</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>父组件</div>
+        <div>
+            <div>{{tom}}</div>
+            <input type="text" name="" v-model.lazy="name" @change="handle3">
+            <div><button @click="handle1">点击</button></div>
+        </div>
+        <div>
+            <div>JERRY:{{jerry}}</div>
+            <div><button @click="handle2">点击</button></div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            tom: 0,
+            jerry: 0,
+            name: '',
+        },
+        methods: {
+            handle1: function() {
+                this.jerry += 2;
+            },
+            handle2: function() {
+                this.tom += 1;
+            },
+            handle3: function() {
+                console.log(this.name);
+            }
+        },
+    });
+    </script>
+</body>
+
+</html>

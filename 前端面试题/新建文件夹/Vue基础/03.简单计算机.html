@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>简单计算器</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <span>数值A</span> <input type="text" name="" v-model="num1">
+        </div>
+        <div>
+            <span>数值B</span> <input type="text" name="" v-model='num2'>
+        </div>
+        <div>计算方法: <input type="text" name="" v-model='rule' @keyup.enter='cal'></div>
+        <div><button @click="cal">计算</button></div>
+        <div>计算结果:<span id="result" v-text="result"></span></div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            num1: '',
+            num2: '',
+            result: '',
+            rule: '',
+        },
+        methods: {
+            cal: function() {
+                if (this.rule == '+') {
+                    this.result = parseInt(this.num1) + parseInt(this.num2);
+                } else if (this.rule == '/') {
+                    this.result = parseInt(this.num1) / parseInt(this.num2);
+                } else if (this.rule == '*') {
+                    this.result = parseInt(this.num1) * parseInt(this.num2);
+                } else if (this.rule == '-') {
+                    this.result = parseInt(this.num1) - parseInt(this.num2);
+                }
+
+            }
+        }
+    });
+    </script>
+</body>
+
+</html>

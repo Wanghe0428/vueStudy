@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>作用域插槽</title>
+</head>
+<style type="text/css">
+.current {
+    color: orange;
+    /*font-weight: 700;*/
+}
+</style>
+
+<body>
+    <!-- html中是不区分大小写的 -->
+    <div id="app">
+        <friut-list :friutlist="list">
+            <template slot-scope="slotprops">
+                <strong v-if="slotprops.info.name=='orange'" class="current">{{slotprops.info.name}}</strong>
+                <span v-else>{{slotprops.info.name}}</span>
+            </template>
+        </friut-list>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    //作用于插槽
+    Vue.component('friut-list', {
+        props: ['friutlist'],
+        data: function() {
+            return {
+
+            };
+        },
+        template: `
+        	<div>
+        		<ul>
+        			<li :key="item.id" v-for="(item, index) in friutlist">
+        				<slot :info="item">{{item.name}}</slot>
+        			</li>
+        		</ul>
+        	</div>
+    	`,
+    });
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            list: [{
+                id: 1,
+                name: 'apple'
+            }, {
+                id: 2,
+                name: 'orange'
+            }, {
+                id: 3,
+                name: 'banana'
+            }],
+        },
+        methods: {},
+    });
+    </script>
+</body>
+
+</html>

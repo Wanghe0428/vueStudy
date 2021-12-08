@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/user">user</router-link>
+        <router-link to="/register">register</router-link>
+
+        <router-view></router-view>
+    </div>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router_3.0.2.js"></script>
+
+    <script>
+        user = {
+            template: `
+            <h1>user王贺爸爸</h1>
+            `,
+        };
+        register = {
+            template: `
+            <div>
+                <h1>register王贺爷爷</h1>
+                <hr></hr>
+                <!--子路由链接-->
+                <router-link to="/register/tab1">tab1</router-link>
+                <router-link to="/register/tab2">tab2</router-link>
+
+                <!--子路由填充位-->
+                <router-view></router-view>
+            </div>
+            `,
+        };
+        tab1 = {
+            template: `
+            <h1>tab1</h1>
+            `,
+        };
+        tab2 = {
+            template: `
+            <h1>tab2</h1>
+            `,
+        };
+        var router = new VueRouter({
+            routes: [{
+                path: '/user',
+                component: user,
+            }, {
+                path: '/register',
+                component: register,
+                children: [{
+                    path: '/register/tab1',
+                    component: tab1
+                }, {
+                    path: '/register/tab2',
+                    component: tab2
+                }],
+            }, {
+                path: '/',
+                redirect: '/user'
+            }],
+        });
+        var vue = new Vue({
+            el: '#app',
+            data: {},
+            router: router
+        });
+    </script>
+</body>
+
+</html>

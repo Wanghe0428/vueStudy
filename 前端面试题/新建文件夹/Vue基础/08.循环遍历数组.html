@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>循环结构</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>水果列表</div>
+        <ul>
+            <!-- key的作用：帮助vue区分不同的元素，提升vue的性能 -->
+            <li :key="index" v-for="(item,index) in fruit">{{item}}{{index}}</li>
+        </ul>
+        <div>水果中英文列表</div>
+        <ul>
+            <li v-for="item in myFruits">
+                <span>{{item.ename}}</span>
+                <span>{{item.cname}}</span>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    /* 循环结构:
+		
+    */
+
+
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            fruit: ["苹果", "香蕉", "西瓜", "菠萝"],
+            myFruits: [{
+                ename: "apple",
+                cname: "苹果"
+            }, {
+                ename: "orange",
+                cname: "橘子"
+            }],
+        },
+        methods: {
+
+        }
+    });
+    </script>
+</body>
+
+</html>

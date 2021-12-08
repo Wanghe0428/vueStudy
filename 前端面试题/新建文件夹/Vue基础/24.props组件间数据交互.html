@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>组件间数据交互</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{pmsg}}</div>
+        <!-- 在HTML中是不区分英文大小写的，如果在js中props中的属性用的是驼峰式命名，则在html中则需要用短横线式命名 -->
+        <menu-item :style="{fontSize: fontSize+'px'}" :menu-title="ptitle" content="我是你爹" :pnum="12" :pblean=true :parr=[1,2,3] :pobj="pobject" @enlarge-text="handle($event)"></menu-item>
+        <!-- $event为获取事件对象 -->
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    Vue.component('menu-item', {
+        //利用props进行组件的数据传递。props传递数据的原则是单向数据流，不允许子组件直接操作props中的数据
+        props: ['menuTitle', 'content', 'pnum', 'pblean', 'parr', 'pobj'],
+        data: function() {
+            return {
+                msg: "子组件本身的数据"
+            };
+        },
+        template: `
+    		<div>
+    		<div>{{msg+"----"+menuTitle+"----"+content}}</div>
+    		<div>{{typeof pnum}}</div>
+    		<div>{{typeof pblean}}</div>
+    		<div>
+    			<ul>
+    				<li :key="index" v-for="(item,index) in parr">{{item}}</li>
+    			</ul>
+    		</div>
+    		<div>
+    			<ul>
+    				<li :key="index" v-for="(value ,key,index) in pobj">{{value+'-'+key+'-'+index}}</li>
+    			</ul>
+    		</div>
+    			<div><button @click="$emit('enlarge-text', 5)">扩大父组件字体</button>
+    			<div><button @click="$emit('enlarge-text', 10)">扩大</button></div>
+    			</div>
+    		</div>
+    	`,
+        //$emit("自定义事件")就会触发这个自定义事件，用于子组件向父组件传递信息，同时父组件监听此事件并赋一个操作方法
+    });
+
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            pmsg: "父组件内容",
+            ptitle: "来自父组件的值", //传递字符串格式的数据
+            pobject: {
+                name: "王贺",
+                age: 22,
+                gender: '男'
+            },
+            fontSize: 10
+        },
+        methods: {
+            handle: function(val) {
+                this.fontSize += val;
+
+            },
+        },
+    });
+    </script>
+</body>
+
+</html>

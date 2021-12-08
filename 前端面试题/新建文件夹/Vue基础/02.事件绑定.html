@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>事件绑定</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{num}}</div>
+        <div>
+            <!-- 添加click事件 -->
+            <button v-on:click="handle">点我宝贝1</button>
+            <!-- 函数带参数需要加括号 -->
+            <button @click="handle($event)">点我宝贝</button>
+        </div>
+        <!-- v-on: click.stop可阻挡冒泡行为 -->
+        <div @click="handle"><a href="#" @click.stop="handle1">点我不跳转</a></div>
+        <!-- @click.prevent可阻止默认行为 -->
+        <div><a href="" @click.prevent="handle">点我不跳转</a></div>
+        <div>
+            <form>
+                <!-- keyup为键盘事件，keyup.esc、keyup.delete表示键盘上的esc和delete按键 -->
+                <input type="text" name="" @keyup.a="clear" v-model="name">
+                <input type="text" name="" @keyup.esc="clear" v-model="name">
+                <input type="password" name="" @keyup.enter="handleSubmit" v-model="password">
+                <!-- <button @click="handleSubmit">提交</button> -->
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    Vue.config.keyCodes.a = 65; //自定义按键修饰符，值对应的是event.keyCode中的值
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            num: 1,
+            name: '',
+            password: ''
+        },
+        //vue中含有方法methods
+        methods: {
+            handle: function(event) {
+                console.log(event.target.innerHTML);
+                console.log(event.target);
+                console.log(event);
+
+                //这里的this指的是vue实例化对象
+                if (this.num < 10) {
+                    // console.log(this)
+                    this.num++;
+                } else {
+                    this.num = 0;
+                }
+            },
+            handle1: function() {
+                alert("王贺爸爸你好");
+            },
+            handleSubmit: function() {
+                console.log(`姓名是${this.name}密码是${this.password}`);
+            },
+            //按delete键时清空
+            clear: function() {
+                this.name = '';
+            }
+        }
+    });
+    </script>
+</body>
+
+</html>

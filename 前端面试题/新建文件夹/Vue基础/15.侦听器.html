@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>侦听器</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <span>名：</span>
+            <span><input type="text" name="" v-model="lastname" @input="handle"></span>
+        </div>
+        <div>
+            <span>性：</span>
+            <span><input type="text" name="" v-model="firstname" @input="handle"></span>
+        </div>
+        <div>
+            {{getFullname}}
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            fullname: '',
+            firstname: '',
+            lastname: ''
+        },
+        methods: {
+            handle: function() {
+                this.fullname = this.firstname + this.lastname;
+            },
+        },
+        //加入监听器，监听器会一直监听属性的变化，一旦变化，就会执行对应的方法
+        watch: {
+            //val表示firstname的当前的最新值，只要值发生变化就会触发这个方法
+            firstname: function(val) {
+                this.fullname = val + ' ' + this.lastname;
+            },
+            lastname: function(val) {
+                this.fullname = this.firstname + ' ' + val;
+            }
+        },
+        //添加计算属性实现
+        computed: {
+            getFullname: function() {
+                console.log(22);
+                return this.firstname + this.lastname;
+            }
+        },
+
+    });
+    </script>
+</body>
+
+</html>

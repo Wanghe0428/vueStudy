@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>vue局部组件</title>
+</head>
+
+<body>
+    <div id="app">
+        <button-count></button-count>
+        <hello-world></hello-world>
+        <hello-wanghe></hello-wanghe>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    Vue.component('hello-wanghe', {
+        data: function() {
+            return {
+                msg: 'hello王贺',
+            }
+        },
+        template: `
+        <div>
+			<div>{{msg}}</div>
+        </div>
+    		`,
+    });
+
+
+    var HelloWorld = {
+        data: function() {
+            return {
+                msg: 'HelloWorld!',
+            }
+        },
+        template: `
+				<div>{{msg}}</div>
+			`,
+    };
+    var ButtonCount = {
+        data: function() {
+            return {
+                count: 0,
+            };
+        },
+        template: `<button @click="count++">{{count}}</button>`,
+    };
+    var vue = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        //局部组件只能在注册它的父组件中使用，全局组件可以在任何地方使用
+        components: {
+            'hello-world': HelloWorld,
+            'button-count': ButtonCount,
+        },
+    });
+    </script>
+</body>
+
+</html>

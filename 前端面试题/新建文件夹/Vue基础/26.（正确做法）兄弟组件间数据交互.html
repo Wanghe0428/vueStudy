@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <div id="app">
+        <parent-element></parent-element>
+        <div><button @click="destroy">事件销毁</button></div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    //兄弟组件之间数据传递
+
+    //提供事件中心
+    var hub = new Vue();
+
+    Vue.component('son-element1', {
+        data: function() {
+            return {
+                tom: 0
+            };
+        },
+        template: `
+    		<div>
+    			<div>TOM:{{tom}}</div>
+    			<button @click="handle">点击</button>
+    		</div>
+    	`,
+        methods: {
+            handle: function() {
+                //点击按钮会触发兄弟组件的事件
+                hub.$emit('jerry-event', 1);
+            }
+        },
+        mounted: function() {
+            hub.$on('tom-event', (val) => {
+                this.tom += val;
+            });
+        },
+    });
+    Vue.component('son-element2', {
+        data: function() {
+            return {
+                jerry: 0
+            };
+        },
+        template: `
+    		<div>
+    			<div>JERRY:{{jerry}}</div>
+    			<button @click="handle">点击</button>
+    		</div>
+    	`,
+        methods: {
+            handle: function() {
+                hub.$emit('tom-event', 2);
+            }
+        },
+        mounted: function() {
+            hub.$on('jerry-event', (val) => {
+                this.jerry += val;
+            });
+        },
+    });
+
+
+    var parentElement = {
+        data: function() {
+            return {};
+        },
+        template: `
+        	<div>
+				<div>父组件</div>
+        		<son-element1></son-element1>
+        		<son-element2></son-element1>
+        	</div>
+			`,
+    };
+    var vue = new Vue({
+        el: '#app',
+        data: {},
+        components: {
+            'parent-element': parentElement
+        },
+        methods: {
+            destroy: function() {
+                hub.$off('tom-event');
+                hub.$off('jerry-event');
+                alert("销毁成功");
+            }
+        },
+    });
+    </script>
+</body>
+
+</html>

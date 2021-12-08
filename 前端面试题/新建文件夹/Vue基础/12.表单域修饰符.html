@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>表单域修饰符</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-model.number是表单修饰符，他可以让输入的字符串自动转换为数值型 -->
+        <span>年龄</span><input type="text" name="" v-model.number="age">
+        <!-- v-model.trim可去掉边界的空格字符 -->
+        <input type="text" name="" v-model.trim="info">
+        <!-- <input type="text" name="" v-model="age"> -->
+        <!-- v-model.lazy表示将input表单的输入事件（一旦输入就会触发事件）修改为change（失去焦点后触发）事件 -->
+        <input type="text" name="" v-model.lazy="massage">
+        <div>{{massage}}</div>
+        <button @click="handle">点我噢</button>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            age: '', //字符串
+            info: '',
+            massage: ''
+        },
+        methods: {
+            handle: function() {
+                console.log(this.age + 13);
+                // this.age = parseInt(this.age) + 13;
+                console.log(this.info.length);
+                console.log(this.massage)
+            }
+        }
+    });
+    </script>
+</body>
+
+</html>

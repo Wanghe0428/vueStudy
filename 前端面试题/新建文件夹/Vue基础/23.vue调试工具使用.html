@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>vue调试工具使用</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{root}}</div>
+        <second-com></second-com>
+        <second-com></second-com>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    //vue调试工具的使用
+    Vue.component('second-com', {
+        data: function() {
+            return {
+                second: '二级组件',
+            }
+        },
+        template: `
+				<div class="second">
+					<di v>{{second}}</div>
+					<third-com></third-com>
+					<third-com></third-com>
+					<third-com></third-com>				
+				</div>
+			`,
+    });
+    Vue.component('third-com', {
+        data: function() {
+            return {
+                third: '三级组件'
+            }
+        },
+        template: `
+        	<div class="third">{{third}}</div>
+    	`,
+    });
+
+    var RootCom = {
+        data: function() {
+            return {
+                root: "顶层组件"
+            }
+        },
+        template: `
+        	<div class="root"></div>
+        `,
+    };
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            root: "顶级组件",
+        },
+        components: {
+            'root-com': RootCom,
+        }
+    });
+    </script>
+</body>
+
+</html>

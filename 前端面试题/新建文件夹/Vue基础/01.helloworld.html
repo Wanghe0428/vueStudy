@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>Vue实现helloworld</title>
+</head>
+<style type="text/css">
+[v-cloak] {
+    display: none;
+}
+</style>
+
+<body>
+    <!-- {{}}是一个插值表达式 -->
+    <!-- v-cloak指令的用法：
+		1.提供样式
+		[v-cloak]{
+			display: none；
+		}
+		2.在插值表达式所在的标签中加入v-clock
+
+		3.cloak仿闪动原理：先通过样式隐藏内容，然后在内存中进行值的替换，在现实最终的结果
+     -->
+    <div id="app">
+        <div v-cloak>
+            {{1+2}}
+        </div>
+        <div v-cloak>{{msg}}</div>
+        <!-- v-text无闪动问题，用了之后就不用加v-cloak了 -->
+        <div v-cloak v-text='msg'>
+        </div>
+        <!-- v-html是用来传输标签数据的指令（自定义属性） -->
+        <div v-html='msg1'></div>
+        <div v-pre>{{msg}}</div>
+        <!-- v-once可以使页面的数据显示内容不再具有响应式 
+        	v-once应用场景：如果所写数据以后不再更改，那么就可以用v-once-->
+        <div v-once>{{msg}}</div>
+        <div>
+            <!-- v-model双向数据绑定：指的是当修改变量数据时，页面内容会紧跟着修改；当修改页面中的数据时，变量数据会变 -->
+            <input type="text" name="" v-model='msg'>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    /*
+  	  vue的基本使用步骤：
+  	  1.需要提供标签用于填充数据
+  	  2.引入vue.js库文件
+  	  3.可以使用vue的语法做功能
+  	  4把vue提供的数据填充到标签里面
+	*/
+    var vue = new Vue({
+        el: '#app', //把数据关联到那个标签中
+        //模型数据（只是一个对象）
+        data: {
+            msg: "hello ",
+            msg1: "<h1>hello</h1>"
+        }
+    })
+    </script>
+</body>
+
+</html>

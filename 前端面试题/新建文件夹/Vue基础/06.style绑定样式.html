@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>style样式绑定</title>
+</head>
+
+<body>
+    <div id="app">
+        <div v-bind:style="{width: widthStyle, height: hightStyle, border: borderStyle,color: colorStyle, backgroundColor:backgroundStyle}">我是你爹</div>
+        <div :style="objStyles"></div>
+        <div :style="[objStyles]">helo</div>
+        <button @click="handle">点我切换哦</button>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            backgroundStyle: "green",
+            widthStyle: "200px",
+            hightStyle: "200px",
+            borderStyle: "1px solid green",
+            colorStyle: "red",
+            objStyles: {
+                backgroundColor: "#000000",
+                width: "200px",
+                height: "200px",
+                border: "1px solid green",
+                color: "red",
+            },
+        },
+        methods: {
+            handle: function() {
+                this.widthStyle = "20px";
+            }
+        }
+    });
+    </script>
+</body>
+
+</html>

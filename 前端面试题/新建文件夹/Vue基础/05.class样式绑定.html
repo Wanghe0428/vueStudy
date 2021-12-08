@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>样式绑定</title>
+</head>
+<style type="text/css">
+.active {
+    border: 1px solid white;
+    width: 100px;
+    height: 100px;
+}
+
+.error {
+    background-color: orange;
+}
+
+.test {
+    color: blue;
+}
+</style>
+
+<body>
+    <div id="app">
+        <!-- 1.运用对象添加类名：
+        	控制类名active添加到div中 ，格式为类名： 是否-->
+        <div :class="{active: isActive,error: isError}">王贺是你爹</div>
+        <!-- 2.利用数组添加类名 -->
+        <div v-bind:class="[activeClass,errorClass,{test:isTest}]">你爹是王贺</div>
+        <div v-bind:class="arrClasses">王贺帅帅帅！</div>
+        <div :class="objClasses"></div>
+        <!-- 默认的class怎么设置，默认的class会保留 -->
+        <div class="test" :class="arrClasses">猜猜我咋样</div>
+        <button @click="handle">点我切换呦</button>
+        <button @click="handle1">点我也切换</button>
+        <button @click="handle">点我切换帅帅帅</button>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            isActive: true,
+            isError: true,
+            isTest: true,
+            activeClass: "active",
+            errorClass: "error",
+            arrClasses: ["active", "error"],
+            objClasses: {
+                active: true,
+                error: true
+            }
+        },
+        methods: {
+            handle: function() {
+                this.isActive = !this.isActive;
+                this.isTest = !this.isTest;
+            },
+            handle1: function() {
+                console.log(this.activeClass);
+                if (this.activeClass == "active") {
+                    this.activeClass = '';
+                    this.errorClass = '';
+                } else {
+                    this.activeClass = "active";
+                    this.errorClass = "error"
+                }
+            },
+        },
+    });
+    </script>
+</body>
+
+</html>

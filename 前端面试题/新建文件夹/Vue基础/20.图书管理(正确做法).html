@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>图书管理</title>
+</head>
+<style type="text/css">
+.title {
+    width: 400px;
+    height: 200px;
+    margin: auto;
+    text-align: center;
+    color: red;
+    font-size: 100px;
+}
+
+.grid {
+    margin: 0 auto;
+    text-align: center;
+    width: 500px;
+    background-color: skyblue;
+}
+
+.grid .check {
+    margin-bottom: 20px;
+}
+
+input {
+    color: red;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid black;
+}
+
+th {
+    background-color: orange;
+}
+</style>
+
+<body>
+    <div id="app">
+        <div class="title">图书管理</div>
+        <div class="grid">
+            <div class="check">
+                <span>编号：</span><span><input type="number" name="" v-model="id" :disabled="flag" v-focus></span>
+                <span>名称：</span><span><input type="text" name="" v-model="name"></span>
+                <span><button @click="handle" :disabled="submitflag">提交</button></span>
+            </div>
+            <div>剩余书的数目：{{computedLength}}</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr :key="item.id" v-for="item in books">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.date | format('yyyy-mm-dd hh:mm:ss' )}}</td>
+                        <td>
+                            <a href="#" @click.prevent="deleteBook(item.id)">删除</a>
+                            <span>-</span>
+                            <a href="#" @click.prevent="toEdit(item.id)">修改</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    Vue.filter('format', function(value, arg) {
+        function dateFormat(date, format) {
+            if (typeof date === "string") {
+                var mts = date.match(/(\/Date\((\d+)\)\/)/);
+                if (mts && mts.length >= 3) {
+                    date = parseInt(mts[2]);
+                }
+            }
+            date = new Date(date);
+            if (!date || date.toUTCString() == "Invalid Date") {
+                return "";
+            }
+            var map = {
+                "M": date.getMonth() + 1, //月份 
+                "d": date.getDate(), //日 
+                "h": date.getHours(), //小时 
+                "m": date.getMinutes(), //分 
+                "s": date.getSeconds(), //秒 
+                "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+                "S": date.getMilliseconds() //毫秒 
+            };
+            format = format.replace(/([yMdhmsqS])+/g, function(all, t) {
+                var v = map[t];
+                if (v !== undefined) {
+                    if (all.length > 1) {
+                        v = '0' + v;
+                        v = v.substr(v.length - 2);
+                    }
+                    return v;
+                } else if (t === 'y') {
+                    return (date.getFullYear() + '').substr(4 - all.length);
+                }
+                return all;
+            });
+            return format;
+        }
+        return dateFormat(value, arg);
+    });
+    //定义全局指令
+    Vue.directive('focus', {
+        inserted: function(el) {
+            el.focus();
+        }
+    });
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            books: [],
+            name: '',
+            id: '',
+            flag: false,
+            submitflag: false,
+        },
+        methods: {
+            //查找索引
+            searchIndex: function(index) {
+                return this.books.findIndex((item) => {
+                    return index == item.id;
+                });
+            },
+            //查找图书
+            serchBook: function(index) {
+                return this.books.filter((item) => {
+                    return index == item.id;
+                });
+            },
+            //添加图书
+            handle: function() {
+                if (this.flag) {
+                    //修改图书操作
+
+                    //根据当前的ID去跟新数组对应中的数据
+                    //some是遍历数组的操作
+                    this.books.some((item) => {
+
+                        if (item.id == this.id) {
+                            item.name = this.name;
+                            this.flag = false;
+                            //完成更新操作，终止循环
+                            return true;
+                        }
+                    });
+                } else {
+                    var index = this.searchIndex(this.id);
+                    console.log(index);
+                    if (index == -1 && this.id != '') {
+                        var book = {};
+                        book.id = this.id;
+                        book.name = this.name;
+                        book.date = '';
+                        this.books.push(book);
+                    }
+
+                };
+                this.id = '';
+                this.name = '';
+
+            },
+            //修改图书
+            toEdit: function(id) {
+                console.log(id);
+                //根据id查询出要编辑的数据,item表示数组中的其中一项数据
+                var book = this.serchBook(id);
+                // console.log(book);
+                //book是一个数组
+                this.id = book[0].id;
+                this.name = book[0].name;
+                this.flag = true;
+            },
+
+            //删除图书
+            deleteBook: function(id) {
+                //方法一：根据查询数组的索引对数组元素进行删除
+                // var index = this.searchIndex(id);
+                // this.books.splice(index, 1);
+
+                //方法二：根据数组的filter方法进行删除
+                this.books = this.books.filter((item) => {
+                    return id != item.id;
+                });
+            }
+        },
+        directives: {
+            /*focus: function(el) {
+            console.log(el);
+            el.focus();
+            },*/
+        },
+        computed: {
+            computedLength: function() {
+                return this.books.length;
+            }
+        },
+        watch: {
+            //监听图书名字
+            name: function(val) {
+                //验证图书是否存在
+                var index = this.books.findIndex(function(item) {
+                    return item.name == val;
+                });
+                console.log(index);
+                if (index != -1) this.submitflag = true;
+                else this.submitflag = false;
+            }
+        },
+        mounted: function() {
+            //该生命周期钩子函数被触发的时候，模板已经可以使用，一般此时用于获取后台数据，然后将数据填充到模板
+            var bookArry = [{
+                id: 1,
+                name: '三国演义',
+                date: 2525609975000
+            }, {
+                id: 2,
+                name: '水浒传',
+                date: 2525609975000
+            }, {
+                id: 3,
+                name: '红楼梦',
+                date: 2525609975000
+            }, {
+                id: 4,
+                name: '西游记',
+                date: 2525609975000
+            }];
+            this.books = this.books.concat(bookArry);
+        }
+    })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>循环结构</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-if与v-for搭配使用  -->
+        <div v-if="index>=1" v-for="(value, key ,index) in obj">{{value}} {{key}} {{index}}</div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    //使用原生js遍历对象
+    var obj = {
+        uname: "王贺",
+        age: 22,
+        sex: "男"
+    };
+    for (var item in obj) {
+        console.log(item + obj[item]);
+    };
+
+
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            obj: {
+                uname: "王贺",
+                age: 22,
+                sex: "男"
+            }
+        },
+        methods: {
+
+        }
+    });
+    </script>
+</body>
+
+</html>

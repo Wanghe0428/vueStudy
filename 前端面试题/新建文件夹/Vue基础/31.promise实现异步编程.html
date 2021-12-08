@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>promise实现异步编程</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+    //promise基本使用
+    var p = new Promise(function(resolve, reject) {
+        //这里用于实现异步任务
+        setTimeout(function() {
+            var flag = false;
+            if (flag) {
+                //正常情况
+                resolve("hello");
+            } else {
+                reject("出错了");
+            }
+        }, 100);
+    });
+    /* //写法一：
+     p.then((data) => {
+         console.log(data);
+     }).catch((info) => {
+         console.log(info);
+     });*/
+
+    //写法二：
+    p.then((data) => {
+        console.log(data);
+    }, (info) => {
+        console.log(info);
+    });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue-router</title>
+
+</head>
+<script src="js/vue.js"></script>
+
+<!--第一步： 引入vue-router库文件 -->
+<script src="js/vue-router_3.0.2.js"></script>
+
+<body>
+
+    <div id="app">
+        <!-- 第二步：添加路由链接 -->
+        <!-- router-link是vue中提供的标签，默认会被渲染为a标签，
+            且to会被渲染成href属性，to的值会被渲染成以#开头的hash地址 -->
+        <router-link to="/user">user</router-link>
+        <router-link to="/register">register</router-link>
+        <!-- 第三步:添加路由填充位（路由占位符） ，将来通过路由规则匹配到的组件，将会被渲染到router-view所在的位置-->
+        <router-view></router-view>
+    </div>
+
+    <script>
+        // 第三步：定义路由组建
+        user = {
+            template: `
+            <h1>User组件</h1>
+            `,
+        };
+        register = {
+            template: `
+            <h1>register组件</h1>
+            `,
+        };
+
+        //第四步：创建路由实例对象
+        var router = new VueRouter({
+            //第五步：构建路由规则
+            routes: [{
+                    path: '/user',
+                    component: user,
+                }, {
+                    path: '/register', //path代表当前的路由规则匹配的hash地址
+                    component: register //component代表当前路由规则对应要展示的组件
+                },
+                //路由重定向，path指的是被重定向的原地址，redirect表示将要被重定向的地址
+                {
+                    path: '/',
+                    redirect: '/user',
+                }
+            ],
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            //第六步：挂载路由实例对象
+            // router: router
+            router
+        });
+    </script>
+</body>
+
+</html>

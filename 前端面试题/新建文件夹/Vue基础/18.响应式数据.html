@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <title>数组元素的添加和删除</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <span><input type="text" name="" v-model="fname"></span>
+            <span><button @click="handle">添加</button></span>
+            <span><button @click="change">替换</button></span>
+            <!-- <span><button @click="handle0">删除</button></span> -->
+        </div>
+        <div>
+            <span><input type="text" name="" v-model="index"></span>
+            <span><button @click="handle1()">删除</button></span>
+        </div>
+        <div>
+            <ul>
+                <li v-for="(item,index) in farray">{{item}}</li>
+            </ul>
+        </div>
+        <div>
+            <span>{{info.age}}</span>
+            <span>{{info.gender}}</span>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            fname: '',
+            farray: ['香蕉', '栗子', '菠萝'],
+            index: '',
+            newArry: '',
+            info: {
+                age: 22,
+                gender: 'male',
+            },
+        },
+        methods: {
+            handle: function() {
+                this.farray.push(this.fname);
+                this.fname = '';
+                console.log(this.farray);
+            },
+            handle0: function() {
+                this.farray.pop();
+            },
+            handle1: function() {
+                this.farray.splice(this.index - 1, 1);
+                this.index = '';
+            },
+            change: function() {
+                //slice()方法截取数组的0-2下标的元素赋给新数组
+                this.farray = this.farray.slice(0, 2);
+                // this.farray = this.newArry;
+            }
+        },
+    });
+    //用索引修改的数据不是响应式的
+    // vue.farray[1] = "橘子";
+
+    //用实例化对象需要加$符号
+    //第一个参数是要处理的数组名称或者对象名称，第二个参数是数组下标索引或者对象的属性，第三个参数是修改的数据值
+    vue.$set(vue.farray, 1, "橘子");
+    // Vue.set(vue.farray, 2, "橙子");
+
+    vue.info.gender = "female";
+    vue.$set(vue.info, 'gender', 'male');
+    </script>
+</body>
+
+</html>
